@@ -3,7 +3,7 @@ import Create from "../components/Create";
 import NavBar from "../components/NavBar";
 function DashBoard() {
   return (
-    <div className="flex flex-col h-screen bg-gray-100">
+    <div className="flex flex-col bg-gray-100">
       <NavBar />
       <Create />
       <footer className="bg-gray-200 text-center p-4">

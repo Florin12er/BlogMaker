@@ -1,5 +1,26 @@
 import { useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
+import axios from "axios";
+// Add this function to retrieve the authenticated user's information
+
+const getUser = async () => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await axios.get(
+      "https://blogapi-production-fb2f.up.railway.app/user/auth/status",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    return response.data.user;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to retrieve user information");
+  }
+};
 
 function Create() {
   const [editorContent, setEditorContent] = useState("");
@@ -24,15 +45,36 @@ function Create() {
     setTags(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Form submitted with data:", { title, links, tags, editorContent });
-    // Perform additional logic like sending data to backend, etc.
-  };
 
+    try {
+      const token = localStorage.getItem("token");
+      const user = await getUser(); // Retrieve the authenticated user's information
+      const author = user.username; // Extract the username from the user object
+      const response = await axios.post(
+        "https://blogapi-production-fb2f.up.railway.app/blog/new",
+        {
+          title,
+          links,
+          tags,
+          content: editorContent,
+          author, // Add the author field to the request body
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      alert("Blog created successfully!");
+    } catch (error) {
+      alert("Error creating blog: " + error.message);
+    }
+  };
   return (
     <div className="container mx-auto px-4">
-      <div className="max-w-7xl text-3xl mx-auto my-20 border-2 border-solid border-gray-300 p-6 bg-white rounded shadow-lg">
+      <div className="max-w-7xl text-2xl mx-auto my-20 border-2 border-solid border-gray-300 p-6 bg-white rounded shadow-lg">
         <h1 className="text-4xl font-bold mb-6 text-center">Create Blog</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="mb-4">
@@ -82,20 +124,25 @@ function Create() {
               apiKey={apiKey}
               initialValue=""
               init={{
-                height: 570,
+                height: 900,
                 width: "100%",
                 resize: false,
+                selector: "textarea",
                 menubar: true,
-                plugins: [
-                  "advlist autolink lists link image",
-                  "charmap print preview anchor help",
-                  "searchreplace visualblocks code",
-                  "insertdatetime media table paste wordcount",
+                codesample_languages: [
+                  { text: "HTML/XML", value: "markup" },
+                  { text: "JavaScript", value: "javascript" },
+                  { text: "CSS", value: "css" },
+                  { text: "PHP", value: "php" },
+                  { text: "Ruby", value: "ruby" },
+                  { text: "Python", value: "python" },
+                  { text: "Java", value: "java" },
+                  { text: "C", value: "c" },
+                  { text: "C#", value: "csharp" },
+                  { text: "C++", value: "cpp" },
                 ],
-                toolbar:
-                  "undo redo | formatselect | bold italic | \
-                  alignleft aligncenter alignright | \
-                  bullist numlist outdent indent | help",
+                plugins: "codesample wordcount code emoticons anchor image preview",
+                toolbar: "undo redo | preview wordcount | bold italic | alignleft aligncenter alignright justify | indent | codesample code | emoticons | anchor image",
                 content_style: "body { font-size: 24px; }",
               }}
               onEditorChange={handleEditorChange}
@@ -116,4 +163,3 @@ function Create() {
 }
 
 export default Create;
-
