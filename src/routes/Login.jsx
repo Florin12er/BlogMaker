@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import githubLogo from "../../public/github-original.svg"; // Import or use the path to your SVG file
+import githubLogo from "/github-original.svg"; // Import or use the path to your SVG file
 
 function Login() {
   return (
