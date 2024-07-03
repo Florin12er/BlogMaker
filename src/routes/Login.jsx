@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { Link, Navigate } from "react-router-dom";
 import githubLogo from "../../public/github-original.svg"; // Adjust path as per your file structure
 
@@ -31,11 +30,6 @@ function Login() {
       );
       const { token } = response.data;
       localStorage.setItem("token", token);
-      Cookies.set("username", `${token}`, {
-        expires: 1,
-        domain: ".vercel.app",
-        path: "/",
-      });
       window.location.href = "/"; // Redirect to home/dashboard page after login
     } catch (error) {
       setError(error.response.data.message);
