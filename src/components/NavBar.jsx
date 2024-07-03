@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 function NavBar() {
   const [error, setError] = useState(null);
@@ -21,7 +21,7 @@ function NavBar() {
       );
 
       localStorage.removeItem("token");
-      window.location.href = "/login";
+      return <Navigate to="/login" replace />;
     } catch (err) {
       setError(err.response.data.message);
     }
@@ -35,12 +35,12 @@ function NavBar() {
             <h1 className="text-4xl font-bold">Blog Maker</h1>
           </div>
           <div className="flex gap-4">
-            <Link
+            <a
               className="font-bold hover:text-blue-500"
-              to="https://blogs-nine-steel.vercel.app/user"
+              href="https://blogs-nine-steel.vercel.app/user"
             >
               See Users
-            </Link>
+            </a>
             <Link
               to="https://blogs-nine-steel.vercel.app/"
               className="font-bold hover:text-blue-500"
