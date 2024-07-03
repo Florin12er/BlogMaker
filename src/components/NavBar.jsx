@@ -7,23 +7,20 @@ function NavBar() {
   const token = localStorage.getItem("token");
 
   const handleLogout = async (event) => {
-    event.preventDefault(); // Prevent default form submission
+    event.preventDefault();
 
     try {
       const response = await axios.delete(
         "https://blogapi-production-fb2f.up.railway.app/user/logout",
         {
-          withCredentials: true, // Ensure credentials are sent
+          withCredentials: true,
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
-      // Clear token from localStorage upon successful logout
       localStorage.removeItem("token");
-
-      // Redirect to login page
       window.location.href = "/login";
     } catch (err) {
       setError(err.response.data.message);
@@ -32,26 +29,37 @@ function NavBar() {
 
   return (
     <>
-      <header className="bg-white shadow-md p-4 flex justify-between items-center">
-        <div className="flex gap-4">
-          <Link to="/" className="text-gray-700 hover:text-gray-900">
-            Blog Maker
-          </Link>
-          <Link to="#" className="text-gray-700 hover:text-gray-900">
-            Blog Api
-          </Link>
-          <Link to="#" className="text-gray-700 hover:text-gray-900">
-            See Blogs
-          </Link>
+      <header className="w-full bg-white border-b-2 border-solid border-black">
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <div>
+            <h1 className="text-4xl font-bold">Blog Maker</h1>
+          </div>
+          <div className="flex gap-4">
+            <Link
+              className="font-bold hover:text-blue-500"
+              to="https://blogs-nine-steel.vercel.app/users"
+            >
+              See Users
+            </Link>
+            <Link
+              to="https://blogs-nine-steel.vercel.app/"
+              className="font-bold hover:text-blue-500"
+            >
+              See Blogs
+            </Link>
+            <Link to="#" className="font-bold hover:text-blue-500">
+              Blog Api Docs
+            </Link>
+          </div>
+          <form onSubmit={handleLogout}>
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none"
+            >
+              Logout
+            </button>
+          </form>
         </div>
-        <form onSubmit={handleLogout}>
-          <button
-            type="submit"
-            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none"
-          >
-            Logout
-          </button>
-        </form>
       </header>
       {error && <div className="text-red-500">{error}</div>}
     </>
@@ -59,4 +67,3 @@ function NavBar() {
 }
 
 export default NavBar;
-

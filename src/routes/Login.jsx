@@ -35,7 +35,6 @@ function Login() {
       setError(error.response.data.message);
     }
   };
-
   const googleAuth = async (event) => {
     event.preventDefault();
     try {
@@ -43,7 +42,7 @@ function Login() {
         "https://blogapi-production-fb2f.up.railway.app/user/auth/google",
         { withCredentials: true },
       );
-      window.location.href = response.request.responseURL; // Redirect to Google authentication page
+      window.open(response.request.responseURL, "_blank"); // Open Google authentication in a new tab
     } catch (error) {
       setError("Failed to redirect to Google authentication");
     }
@@ -56,7 +55,7 @@ function Login() {
         "https://blogapi-production-fb2f.up.railway.app/user/auth/github",
         { withCredentials: true },
       );
-      window.location.href = response.request.responseURL; // Redirect to GitHub authentication page
+      window.open(response.request.responseURL, "_blank"); // Open GitHub authentication in a new tab
     } catch (error) {
       setError("Failed to redirect to GitHub authentication");
     }
@@ -161,4 +160,3 @@ function Login() {
 }
 
 export default Login;
-
