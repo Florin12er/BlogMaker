@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { useEffect } from "react";
-import jwtDecode from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 
 const RequireAuth = ({ children }) => {
   useEffect(() => {
