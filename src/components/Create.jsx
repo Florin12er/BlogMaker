@@ -1,33 +1,17 @@
-import { useState } from "react";
+// Create.jsx
+
+import React, { useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import axios from "axios";
-// Add this function to retrieve the authenticated user's information
+import { useParams } from "react-router-dom";
 
-const getUser = async () => {
-  try {
-    const token = localStorage.getItem("token");
-
-    const response = await axios.get(
-      "https://blogapi-production-fb2f.up.railway.app/user/auth/status",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    );
-    return response;
-  } catch (error) {
-    console.error(error);
-    throw new Error("Failed to retrieve user information");
-  }
-};
-
-function Create() {
+function Create({ userId }) {
   const [editorContent, setEditorContent] = useState("");
   const [title, setTitle] = useState("");
   const [links, setLinks] = useState("");
   const [tags, setTags] = useState("");
-  const apiKey = import.meta.env.VITE_TINYMCE_API_KEY;
+
+  const apiKey = import.meta.env.VITE_TINYMCE_API_KEY; // Assuming this is correctly set up
 
   const handleEditorChange = (content, editor) => {
     setEditorContent(content);
@@ -50,8 +34,7 @@ function Create() {
 
     try {
       const token = localStorage.getItem("token");
-      const user = await getUser(); // Retrieve the authenticated user's information
-      const author = user.username; // Extract the username from the user object
+
       const response = await axios.post(
         "https://blogapi-production-fb2f.up.railway.app/blog/new",
         {
@@ -59,19 +42,23 @@ function Create() {
           links,
           tags,
           content: editorContent,
-          author, // Add the author field to the request body
+          author: userId, // Use the userId passed from props
         },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
+
+      console.log("Blog creation response:", response);
+
       alert("Blog created successfully!");
     } catch (error) {
       alert("Error creating blog: " + error.message);
     }
   };
+
   return (
     <div className="container mx-auto px-4">
       <div className="max-w-7xl text-2xl mx-auto my-20 border-2 border-solid border-gray-300 p-6 bg-white rounded shadow-lg">
@@ -165,3 +152,4 @@ function Create() {
 }
 
 export default Create;
+
