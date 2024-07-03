@@ -15,7 +15,6 @@ function Login() {
       window.location.href = "/"; // Replace with your dashboard route
     }
   }, [token]);
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!email || !password) {
@@ -29,12 +28,17 @@ function Login() {
         { withCredentials: true },
       );
       const { token } = response.data;
-      localStorage.setItem("token", token);
-      window.location.href = "/"; // Redirect to home/dashboard page after login
+
+      // Set the token as a cookie
+      document.cookie = `token=${token};path=/;domain=.vercel.app;SameSite=None;Secure`;
+
+      // Redirect to the desired page after login
+      window.location.href = "/"; // or another appropriate route
     } catch (error) {
       setError(error.response.data.message);
     }
   };
+
   const googleAuth = async (event) => {
     event.preventDefault();
     try {
