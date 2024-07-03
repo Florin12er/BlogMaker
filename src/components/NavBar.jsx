@@ -1,27 +1,28 @@
 import axios from "axios";
 import { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function NavBar() {
   const [error, setError] = useState(null);
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   const handleLogout = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await axios.delete(
+      await axios.delete(
         "https://blogapi-production-fb2f.up.railway.app/user/logout",
         {
           withCredentials: true,
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
 
       localStorage.removeItem("token");
-      return <Navigate to="/login" replace />;
+      navigate("/login"); // Redirect to /login route after logout
     } catch (err) {
       setError(err.response.data.message);
     }
@@ -36,18 +37,15 @@ function NavBar() {
           </div>
           <div className="flex gap-4">
             <a
-              className="font-bold hover:text-blue-500"
-              href="https://blogs-nine-steel.vercel.app/user"
-            >
-              See Users
-            </a>
-            <Link
-              to="https://blogs-nine-steel.vercel.app/"
+              href="https://blogs-nine-steel.vercel.app/"
               className="font-bold hover:text-blue-500"
             >
               See Blogs
-            </Link>
-            <Link to="#" className="font-bold hover:text-blue-500">
+            </a>
+            <Link
+              to="#"
+              className="font-bold hover:text-blue-500"
+            >
               Blog Api Docs
             </Link>
           </div>
@@ -67,3 +65,4 @@ function NavBar() {
 }
 
 export default NavBar;
+
