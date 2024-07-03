@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, Navigate } from "react-router-dom";
 import githubLogo from "../../public/github-original.svg"; // Adjust path as per your file structure
+import { document } from "postcss";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -30,7 +31,8 @@ function Login() {
       const { token } = response.data;
 
       // Set the token as a cookie
-      document.cookie = `token=${token};path=/;domain=.vercel.app;SameSite=None;Secure`;
+      document.cookie = `token=${token}; path=/; domain=blog-maker-two.vercel.app; SameSite=None; Secure`;
+      document.cookie = `token=${token}; path=/; domain=blogs-nine-steel.vercel.app; SameSite=None; Secure`;
 
       // Redirect to the desired page after login
       window.location.href = "/"; // or another appropriate route
