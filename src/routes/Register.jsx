@@ -1,29 +1,39 @@
 import { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const token = localStorage.getItem("token");
 
+  if (token) {
+    return <Navigate to="/" replace />;
+  }
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post("https://blogapi-production-fb2f.up.railway.app/user/register", {
-        username,
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "https://blogapi-production-fb2f.up.railway.app/user/register",
+        {
+          username,
+          email,
+          password,
+        },
+      );
       if (response.data) {
-        // Registration successful, redirect to login page
         window.location.href = "/login";
       } else {
         setError("Registration failed. Please try again.");
       }
     } catch (error) {
-      setError(error.message);
+      if (error.response && error.response.data) {
+        setError(error.response.data.message); // Display backend-specific error message
+      } else {
+        setError("Registration failed. Please try again later."); // Generic error message
+      }
     }
   };
 
@@ -33,7 +43,10 @@ function Register() {
         <h2 className="text-2xl font-semibold text-gray-800 mb-6">Register</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="username" className="block text-gray-700 text-sm font-bold mb-2">
+            <label
+              htmlFor="username"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
               Username
             </label>
             <input
@@ -47,7 +60,10 @@ function Register() {
             />
           </div>
           <div className="mb-6">
-            <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">
+            <label
+              htmlFor="email"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
               Email
             </label>
             <input
@@ -61,7 +77,10 @@ function Register() {
             />
           </div>
           <div className="mb-6">
-            <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">
+            <label
+              htmlFor="password"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
               Password
             </label>
             <input
@@ -83,7 +102,10 @@ function Register() {
           </button>
         </form>
         <p className="text-sm text-gray-600 mt-4">
-          Already have an account? <Link to="/login" className="text-blue-500 hover:text-blue-600">Login here</Link>
+          Already have an account?{" "}
+          <Link to="/login" className="text-blue-500 hover:text-blue-600">
+            Login here
+          </Link>
         </p>
       </div>
     </div>
