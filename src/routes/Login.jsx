@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 import { Link, Navigate } from "react-router-dom";
 import githubLogo from "../../public/github-original.svg"; // Adjust path as per your file structure
-import { document } from "postcss";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -16,6 +16,7 @@ function Login() {
       window.location.href = "/"; // Replace with your dashboard route
     }
   }, [token]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!email || !password) {
@@ -29,18 +30,17 @@ function Login() {
         { withCredentials: true },
       );
       const { token } = response.data;
-
-      // Set the token as a cookie
-      document.cookie = `token=${token}; path=/; domain=blog-maker-two.vercel.app; SameSite=None; Secure`;
-      document.cookie = `token=${token}; path=/; domain=blogs-nine-steel.vercel.app; SameSite=None; Secure`;
-
-      // Redirect to the desired page after login
-      window.location.href = "/"; // or another appropriate route
+      localStorage.setItem("token", token);
+      Cookies.set("username", `${token}`, {
+        expires: 1,
+        domain: ".vercel.app",
+        path: "/",
+      });
+      window.location.href = "/"; // Redirect to home/dashboard page after login
     } catch (error) {
       setError(error.response.data.message);
     }
   };
-
   const googleAuth = async (event) => {
     event.preventDefault();
     try {
