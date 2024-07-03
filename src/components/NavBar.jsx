@@ -37,7 +37,7 @@ function NavBar() {
           <div className="flex gap-4">
             <Link
               className="font-bold hover:text-blue-500"
-              to="https://blogs-nine-steel.vercel.app/users"
+              to="https://blogs-nine-steel.vercel.app/user"
             >
               See Users
             </Link>
