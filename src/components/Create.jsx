@@ -15,7 +15,7 @@ const getUser = async () => {
         },
       },
     );
-    return response.data.user;
+    return response;
   } catch (error) {
     console.error(error);
     throw new Error("Failed to retrieve user information");
@@ -141,8 +141,10 @@ function Create() {
                   { text: "C#", value: "csharp" },
                   { text: "C++", value: "cpp" },
                 ],
-                plugins: "codesample wordcount code emoticons anchor image preview",
-                toolbar: "undo redo | preview wordcount | bold italic | alignleft aligncenter alignright justify | indent | codesample code | emoticons | anchor image",
+                plugins:
+                  "codesample wordcount code emoticons anchor image preview",
+                toolbar:
+                  "undo redo | preview wordcount | bold italic | alignleft aligncenter alignright justify | indent | codesample code | emoticons | anchor image",
                 content_style: "body { font-size: 24px; }",
               }}
               onEditorChange={handleEditorChange}
