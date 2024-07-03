@@ -23,9 +23,9 @@ const RequireAuth = ({ children }) => {
         }
       } catch (error) {
         console.error("Error decoding token:", error);
-        // Handle any decoding errors (e.g., invalid token format)
         document.cookie =
-          "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.vercel.app; SameSite=None; Secure";
+          "token=; path=/; domain=blog-maker-two.vercel.app; SameSite=None; Secure";
+
         <Navigate to="/login" replace />;
         return;
       }
