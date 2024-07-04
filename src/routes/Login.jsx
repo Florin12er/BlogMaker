@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import githubLogo from "../../public/github-original.svg"; // Adjust path as per your file structure
+import { jwtDecode } from "jwt-decode";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -12,7 +13,9 @@ function Login() {
   useEffect(() => {
     // Check if token exists, if yes, redirect to home/dashboard
     if (token) {
-      window.location.href = "/"; // Replace with your dashboard route
+      const decodedToken = jwtDecode(token);
+      console.log(`Already logged in as: ${decodedToken.username}`);
+      // Optionally redirect here if needed
     }
   }, [token]);
 
@@ -30,11 +33,18 @@ function Login() {
       );
       const { token } = response.data;
       localStorage.setItem("token", token);
+
+      // Decode the token and store username in localStorage
+      const decodedToken = jwtDecode(token);
+      localStorage.setItem("username", decodedToken.username);
+      console.log(`Logged in as: ${decodedToken.username}`);
+
       window.location.href = "/"; // Redirect to home/dashboard page after login
     } catch (error) {
       setError(error.response.data.message);
     }
   };
+
   const googleAuth = async (event) => {
     event.preventDefault();
     try {
@@ -160,3 +170,4 @@ function Login() {
 }
 
 export default Login;
+

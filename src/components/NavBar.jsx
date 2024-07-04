@@ -18,7 +18,7 @@ function NavBar() {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       localStorage.removeItem("token");
@@ -42,10 +42,7 @@ function NavBar() {
             >
               See Blogs
             </a>
-            <Link
-              to="#"
-              className="font-bold hover:text-blue-500"
-            >
+            <Link to="#" className="font-bold hover:text-blue-500">
               Blog Api Docs
             </Link>
           </div>
@@ -65,4 +62,3 @@ function NavBar() {
 }
 
 export default NavBar;
-

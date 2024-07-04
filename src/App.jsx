@@ -5,7 +5,6 @@ import Register from "./routes/Register";
 import ResetPassword from "./routes/Reset";
 import ResetRequest from "./routes/ResetRequest";
 import RequireAuth from "./routes/PrivateRoute";
-import Create from "./components/Create";
 
 function App() {
   return (
@@ -22,7 +21,6 @@ function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/reset-request" element={<ResetRequest />} />
       <Route path="/reset" element={<ResetPassword />} />
-      <Route path="/create/:id" element={<Create />} />
     </Routes>
   );
 }

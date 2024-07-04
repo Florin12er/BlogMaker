@@ -1,15 +1,15 @@
-// Create.jsx
-
 import React, { useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 
-function Create({ userId }) {
+function Create() {
+  const username = localStorage.getItem("username");
   const [editorContent, setEditorContent] = useState("");
   const [title, setTitle] = useState("");
   const [links, setLinks] = useState("");
   const [tags, setTags] = useState("");
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const apiKey = import.meta.env.VITE_TINYMCE_API_KEY; // Assuming this is correctly set up
 
@@ -32,30 +32,43 @@ function Create({ userId }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (!title || !editorContent) {
+      setError("Title and content are required.");
+      return;
+    }
+
     try {
+      setIsLoading(true);
       const token = localStorage.getItem("token");
 
       const response = await axios.post(
         "https://blogapi-production-fb2f.up.railway.app/blog/new",
         {
           title,
+          author: username,
           links,
           tags,
           content: editorContent,
-          author: userId, // Use the userId passed from props
         },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       console.log("Blog creation response:", response);
 
       alert("Blog created successfully!");
+      setTitle("");
+      setLinks("");
+      setTags("");
+      setEditorContent("");
+      setError(null);
     } catch (error) {
-      alert("Error creating blog: " + error.message);
+      setError("Error creating blog: " + error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -137,12 +150,14 @@ function Create({ userId }) {
               onEditorChange={handleEditorChange}
             />
           </div>
+          {error && <div className="text-red-500 mb-2">{error}</div>}
           <div className="flex justify-end">
             <button
               type="submit"
-              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring focus:border-blue-300"
+              className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring focus:border-blue-300 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+              disabled={isLoading}
             >
-              Post Blog
+              {isLoading ? 'Posting...' : 'Post Blog'}
             </button>
           </div>
         </form>
