@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import githubLogo from "../../public/github-original.svg"; // Adjust path as per your file structure
-import { jwtDecode } from "jwt-decode";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -13,9 +11,7 @@ function Login() {
   useEffect(() => {
     // Check if token exists, if yes, redirect to home/dashboard
     if (token) {
-      const decodedToken = jwtDecode(token);
-      console.log(`Already logged in as: ${decodedToken.username}`);
-      // Optionally redirect here if needed
+      window.location.href = "/"; // Replace with your dashboard route
     }
   }, [token]);
 
@@ -31,43 +27,26 @@ function Login() {
         { email, password },
         { withCredentials: true },
       );
-      const { token } = response.data;
+      const { token, userId } = response.data; // Assuming userId is returned from backend
       localStorage.setItem("token", token);
-
-      // Decode the token and store username in localStorage
-      const decodedToken = jwtDecode(token);
-      localStorage.setItem("username", decodedToken.username);
-      console.log(`Logged in as: ${decodedToken.username}`);
-
+      localStorage.setItem("userId", userId); // Store userId in local storage
       window.location.href = "/"; // Redirect to home/dashboard page after login
     } catch (error) {
       setError(error.response.data.message);
     }
   };
 
-  const googleAuth = async (event) => {
-    event.preventDefault();
+  const handleGuestLogin = async () => {
     try {
-      const response = await axios.get(
-        "https://blogapi-production-fb2f.up.railway.app/user/auth/google",
-        { withCredentials: true },
+      const response = await axios.post(
+        "https://blogapi-production-fb2f.up.railway.app/user/guest"
       );
-      window.open(response.request.responseURL, "_blank"); // Open Google authentication in a new tab
+      const { token, userId } = response.data; // Assuming userId is returned from backend
+      localStorage.setItem("token", token);
+      localStorage.setItem("userId", userId); // Store userId in local storage
+      window.location.href = "/"; // Redirect to home/dashboard page after login
     } catch (error) {
-      setError("Failed to redirect to Google authentication");
-    }
-  };
-
-  const githubAuth = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await axios.get(
-        "https://blogapi-production-fb2f.up.railway.app/user/auth/github",
-        { withCredentials: true },
-      );
-      window.open(response.request.responseURL, "_blank"); // Open GitHub authentication in a new tab
-    } catch (error) {
-      setError("Failed to redirect to GitHub authentication");
+      setError(error.response.data.message);
     }
   };
 
@@ -119,7 +98,16 @@ function Login() {
           >
             Login
           </button>
+          <button
+            type="button"
+            onClick={handleGuestLogin}
+            className="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-md focus:outline-none w-full mt-2"
+          >
+            Login as Guest
+          </button>
         </form>
+        <div className="text-center mt-4">
+        </div>
         <div className="mt-4 text-center">
           <p className="text-sm text-gray-600">
             Don't have an account?{" "}
