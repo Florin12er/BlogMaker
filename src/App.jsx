@@ -6,6 +6,7 @@ import ResetPassword from "./routes/Reset";
 import ResetRequest from "./routes/ResetRequest";
 import RequireAuth from "./routes/PrivateRoute";
 import GitHubCallback from "./routes/GithubCallback";
+import GoogleCallback from "./routes/GoogleCallback";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <Route path="/reset-request" element={<ResetRequest />} />
       <Route path="/reset" element={<ResetPassword />} />
       <Route path="/auth/github/callback" element={<GitHubCallback />} />
+            <Route path="/auth/google/callback" element={<GoogleCallback/>}/>
     </Routes>
   );
 }
