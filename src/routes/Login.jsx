@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import githubLogo from "../../public/github-original.svg"; // Adjust path as per your file structure
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -9,9 +10,8 @@ function Login() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    // Check if token exists, if yes, redirect to home/dashboard
     if (token) {
-      window.location.href = "/"; // Replace with your dashboard route
+      window.location.href = "/"; // Redirect to your dashboard route
     }
   }, [token]);
 
@@ -25,12 +25,12 @@ function Login() {
       const response = await axios.post(
         "https://blogapi-production-fb2f.up.railway.app/user/login",
         { email, password },
-        { withCredentials: true },
+        { withCredentials: true }
       );
-      const { token, userId } = response.data; // Assuming userId is returned from backend
+      const { token, userId } = response.data;
       localStorage.setItem("token", token);
-      localStorage.setItem("userId", userId); // Store userId in local storage
-      window.location.href = "/"; // Redirect to home/dashboard page after login
+      localStorage.setItem("userId", userId);
+      window.location.href = "/";
     } catch (error) {
       setError(error.response.data.message);
     }
@@ -41,13 +41,17 @@ function Login() {
       const response = await axios.post(
         "https://blogapi-production-fb2f.up.railway.app/user/guest"
       );
-      const { token, userId } = response.data; // Assuming userId is returned from backend
+      const { token, userId } = response.data;
       localStorage.setItem("token", token);
-      localStorage.setItem("userId", userId); // Store userId in local storage
-      window.location.href = "/"; // Redirect to home/dashboard page after login
+      localStorage.setItem("userId", userId);
+      window.location.href = "/";
     } catch (error) {
       setError(error.response.data.message);
     }
+  };
+
+  const handleGitHubLogin = () => {
+    window.location.href = "https://blogapi-production-fb2f.up.railway.app/auth/github";
   };
 
   return (
@@ -105,9 +109,15 @@ function Login() {
           >
             Login as Guest
           </button>
+          <button
+            type="button"
+            onClick={handleGitHubLogin}
+            className="bg-gray-800 hover:bg-gray-900 text-white py-2 px-4 rounded-md focus:outline-none w-full mt-2 flex items-center justify-center"
+          >
+            <img src={githubLogo} alt="GitHub Logo" className="w-6 h-6 mr-2" />
+            Login with GitHub
+          </button>
         </form>
-        <div className="text-center mt-4">
-        </div>
         <div className="mt-4 text-center">
           <p className="text-sm text-gray-600">
             Don't have an account?{" "}
