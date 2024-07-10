@@ -53,6 +53,7 @@ function Create() {
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.REACT_APP_API_KEY,
           },
         },
       );
@@ -154,10 +155,10 @@ function Create() {
           <div className="flex justify-end">
             <button
               type="submit"
-              className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring focus:border-blue-300 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring focus:border-blue-300 ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
               disabled={isLoading}
             >
-              {isLoading ? 'Posting...' : 'Post Blog'}
+              {isLoading ? "Posting..." : "Post Blog"}
             </button>
           </div>
         </form>
@@ -167,4 +168,3 @@ function Create() {
 }
 
 export default Create;
-
