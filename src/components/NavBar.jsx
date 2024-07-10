@@ -22,6 +22,8 @@ function NavBar() {
       );
 
       localStorage.removeItem("token");
+      localStorage.removeItem("username");
+      localStorage.removeItem("userId");
       navigate("/login"); // Redirect to /login route after logout
     } catch (err) {
       setError(err.response.data.message);
