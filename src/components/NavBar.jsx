@@ -44,9 +44,9 @@ function NavBar() {
             >
               See Blogs
             </a>
-            <Link to="#" className="font-bold hover:text-blue-500">
+            <a href="https://blogdocs.vercel.app" className="font-bold hover:text-blue-500">
               Blog Api Docs
-            </Link>
+            </a>
           </div>
           <form onSubmit={handleLogout}>
             <button
