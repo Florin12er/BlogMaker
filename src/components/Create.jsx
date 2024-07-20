@@ -115,10 +115,10 @@ function Create() {
   };
 
   return (
-    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-xl overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-blue-100 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto bg-white rounded-lg shadow-xl overflow-hidden">
         <div className="py-6 px-8">
-          <h1 className="text-3xl font-bold text-black text-center">
+          <h1 className="text-5xl font-extrabold text-center mb-12 text-blue-800">
             Create New Blog Post
           </h1>
         </div>
@@ -235,9 +235,9 @@ function Create() {
                     { text: "C++", value: "cpp" },
                   ],
                   plugins:
-                    "codesample wordcount code emoticons anchor image preview",
+                    "codesample fullscreen wordcount code emoticons anchor image preview",
                   toolbar:
-                    "undo redo | backcolor forecolor bold italic | alignleft aligncenter alignright alignjustify | indent | codesample code | emoticons | anchor image",
+                    "fullscreen undo redo | backcolor forecolor bold italic | alignleft aligncenter alignright alignjustify | indent | codesample code | emoticons | anchor image",
                   content_style: "body { font-size: 24px; }",
                 }}
                 onEditorChange={handleEditorChange}

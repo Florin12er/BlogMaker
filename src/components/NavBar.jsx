@@ -32,35 +32,37 @@ function NavBar() {
 
   return (
     <>
-      <header className="w-full bg-white border-b-2 border-solid border-black">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div>
-            <h1 className="text-4xl font-bold">Blog Maker</h1>
-          </div>
-          <div className="flex gap-4">
+      <nav className="bg-gradient-to-r from-blue-500 to-purple-600 shadow-lg">
+        <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+          <Link to="/" className="text-3xl font-bold text-white">Blog Maker</Link>
+          <div className="flex gap-6">
             <a
               href="https://blogs-nine-steel.vercel.app/"
-              className="font-bold hover:text-blue-500"
+              className="text-white hover:text-yellow-300 font-semibold transition duration-300 ease-in-out"
             >
               See Blogs
             </a>
-            <a href="https://blogdocs.vercel.app" className="font-bold hover:text-blue-500">
+            <a
+              href="https://blogdocs.vercel.app"
+              className="text-white hover:text-yellow-300 font-semibold transition duration-300 ease-in-out"
+            >
               Blog Api Docs
             </a>
           </div>
           <form onSubmit={handleLogout}>
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none"
+              className="px-4 py-2 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none transition duration-300 ease-in-out"
             >
               Logout
             </button>
           </form>
         </div>
-      </header>
-      {error && <div className="text-red-500">{error}</div>}
+      </nav>
+      {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4 container mx-auto" role="alert">{error}</div>}
     </>
   );
 }
 
 export default NavBar;
+
