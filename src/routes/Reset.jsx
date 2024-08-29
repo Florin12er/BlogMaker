@@ -1,5 +1,7 @@
 import axios from "axios";
+
 import { useState } from "react";
+
 import { Link } from "react-router-dom";
 
 function ResetPassword() {
@@ -10,11 +12,18 @@ function ResetPassword() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     try {
-      const requestBody = { email, resetCode: code, newPassword };
+      const requestBody = {
+        email,
+        resetCode: code,
+        newPassword,
+      };
+
       console.log("Request body:", requestBody);
+
       const response = await axios.post(
-        "https://blogapi-production-fb2f.up.railway.app/user/reset",
+        "https://blog-api-one-neon.vercel.app/user/reset",
         requestBody,
         {
           withCredentials: true,
@@ -24,6 +33,7 @@ function ResetPassword() {
           },
         },
       );
+
       if (response.status === 200) {
         setSuccess(true);
         window.location.href = "/login";
@@ -38,20 +48,27 @@ function ResetPassword() {
       );
     }
   };
+
   return (
     <div className="bg-gradient-to-b from-blue-100 flex items-center justify-center h-screen">
+      {" "}
       <div className="max-w-md w-full p-8 bg-white shadow-lg rounded-lg">
+        {" "}
         <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-          Reset Password
-        </h2>
+          {" "}
+          Reset Password{" "}
+        </h2>{" "}
         <form onSubmit={handleSubmit}>
+          {" "}
           <div className="mb-6">
+            {" "}
             <label
               htmlFor="email"
               className="block text-gray-700 text-sm font-bold mb-2"
             >
-              Email
-            </label>
+              {" "}
+              Email{" "}
+            </label>{" "}
             <input
               type="email"
               id="email"
@@ -60,15 +77,17 @@ function ResetPassword() {
               onChange={(event) => setEmail(event.target.value)}
               className="px-3 py-2 border border-gray-300 rounded-md w-full focus:outline-none focus:border-blue-500"
               placeholder="Enter email"
-            />
-          </div>
+            />{" "}
+          </div>{" "}
           <div className="mb-6">
+            {" "}
             <label
               htmlFor="code"
               className="block text-gray-700 text-sm font-bold mb-2"
             >
-              Reset Code
-            </label>
+              {" "}
+              Reset Code{" "}
+            </label>{" "}
             <input
               type="text"
               id="code"
@@ -77,15 +96,17 @@ function ResetPassword() {
               onChange={(event) => setCode(event.target.value)}
               className="px-3 py-2 border border-gray-300 rounded-md w-full focus:outline-none focus:border-blue-500"
               placeholder="Enter reset code"
-            />
-          </div>
+            />{" "}
+          </div>{" "}
           <div className="mb-6">
+            {" "}
             <label
               htmlFor="password"
               className="block text-gray-700 text-sm font-bold mb-2"
             >
-              New Password
-            </label>
+              {" "}
+              New Password{" "}
+            </label>{" "}
             <input
               type="password"
               id="password"
@@ -94,28 +115,32 @@ function ResetPassword() {
               onChange={(event) => setNewPassword(event.target.value)}
               className="px-3 py-2 border border-gray-300 rounded-md w-full focus:outline-none focus:border-blue-500"
               placeholder="Enter new password"
-            />
-          </div>
+            />{" "}
+          </div>{" "}
           <button
             type="submit"
             className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md focus:outline-none"
           >
-            Reset Password
-          </button>
-        </form>
+            {" "}
+            Reset Password{" "}
+          </button>{" "}
+        </form>{" "}
         {success && (
           <p className="text-sm text-green-600 mt-4">
-            Password reset successfully! You will be redirected to the login
-            page.
+            {" "}
+            Password reset successfully ! You will be redirected to the login
+            page.{" "}
           </p>
         )}
         <p className="text-sm text-gray-600 mt-4">
+          {" "}
           Remember your password?{" "}
           <Link to="/login" className="text-blue-500 hover:text-blue-600">
-            Login here
-          </Link>
-        </p>
-      </div>
+            {" "}
+            Login here{" "}
+          </Link>{" "}
+        </p>{" "}
+      </div>{" "}
     </div>
   );
 }
