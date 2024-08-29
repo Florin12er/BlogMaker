@@ -23,7 +23,7 @@ function ResetPassword() {
       console.log("Request body:", requestBody);
 
       const response = await axios.post(
-        "https://blog-api-one-neon.vercel.app/user/reset",
+        "https://blogapi-1jcl.onrender.com/user/reset",
         requestBody,
         {
           withCredentials: true,

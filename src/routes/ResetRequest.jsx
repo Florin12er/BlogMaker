@@ -13,7 +13,7 @@ function ResetRequest() {
 
     try {
       const response = await axios.post(
-        "https://blog-api-one-neon.vercel.app/user/request-reset",
+        "https://blogapi-1jcl.onrender.com/user/request-reset",
         {
           email,
         },

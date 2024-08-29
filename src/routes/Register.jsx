@@ -19,7 +19,7 @@ function Register() {
 
     try {
       const response = await axios.post(
-        "https://blog-api-one-neon.vercel.app/user/register",
+        "https://blogapi-1jcl.onrender.com/user/register",
         {
           username,
           email,
